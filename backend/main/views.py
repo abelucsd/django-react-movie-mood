@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect
-
 from django.contrib.auth.models import User, Group
 from django.contrib import messages
-from rest_framework import viewsets, permissions
-from .serializers import UserSerializer, GroupSerializer
+from rest_framework import viewsets, permissions, generics
+from rest_framework.permissions import AllowAny
+from rest_framework_simplejwt.views import TokenObtainPairView
+from .serializers import RegisterSerializer, UserSerializer, MyTokenObtainPairSerializer#, GroupSerializer
 # Create your views here.
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -11,10 +12,20 @@ class UserViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer
     permission_classes = [permissions.IsAuthenticated]
 
+'''
 class GroupViewSet(viewsets.ModelViewSet):
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
     permission_classes = [permissions.IsAuthenticated]
+'''
+class MyObtainTokenPairView(TokenObtainPairView):
+    permission_classes = (AllowAny,)
+    serializer_class = MyTokenObtainPairSerializer
+
+class RegisterView(generics.CreateAPIView):
+    queryset = User.objects.all()
+    permission_classes = (AllowAny,)
+    serializer_class = RegisterSerializer
 '''
 def home(request):
     if request.user.is_authenticated:
