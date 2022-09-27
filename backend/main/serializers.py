@@ -2,12 +2,12 @@ from django.contrib.auth.models import User, Group
 from django.contrib.auth.password_validation import validate_password
 from rest_framework import serializers, status
 from rest_framework.validators import UniqueValidator
-from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User        
-        fields = ['id', 'username', 'first_name', 'last_name' 'email']
+        fields = ['id', 'username', 'first_name', 'last_name', 'email']
 
 '''
 class GroupSerializer(serializers.HyperlinkedModelSerializer):
@@ -31,8 +31,7 @@ class RegisterSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('username', 'password', 'password2', 'email',
-                    'first_name', 'last_name')
+        fields = ('username', 'password', 'password2', 'email', 'first_name', 'last_name')
         extra_kwargs = {
             'first_name': {'required': True},
             'last_name': {'required': True}
@@ -56,10 +55,33 @@ class RegisterSerializer(serializers.ModelSerializer):
         user.save()
         return user
 
-class MyTokenObtainPairSerializer(TokenObtainPairView):
+class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
+
+    # validate the login
+    def validate (self, attrs):
+        data = super().validate(attrs)
+        token = self.get_token(self.user)
+        data['user'] = UserSerializer(self.user).data
+        data['refresh'] = str(token)
+        data['access'] = str(token.access_token)
+        return data
 
     @classmethod
     def get_token(cls, user):
+
+        # Need User information
+        # Could make it all at once.
+        # In frontend: 
+        '''
+            Login with username and password .post(url, {username, password})
+            .then ((res) => {
+                res.data would only contain token
+                The only data this serializer requires is the username and password to generate a token
+                However we could include the username's data too.
+            })
+        '''
+        # validate username password            
+        # only returning a token.
         token = super(MyTokenObtainPairSerializer, cls).get_token(user)
 
         # Add custom claims

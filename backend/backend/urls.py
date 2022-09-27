@@ -25,6 +25,8 @@ from rest_framework_simplejwt.views import (
 from main import views
 
 router = routers.DefaultRouter()
+
+# USER
 router.register(r'users', views.UserViewSet)
 #router.register(r'groups', views.GroupViewSet)
 # /users/ -- returns a list of users
