@@ -1,27 +1,100 @@
 .login {
-    display: flex;  
-    justify-content: center;
-    align-items: center;        
+    height: 100vh;
+    display: grid;  
+    justify-content: center;        
+    grid-template-rows: repeat(4, 25vh);   
+    grid-template-columns: repeat(8, 12.5vw);   
+}
+
+.welcome-container {
+    height: 100vh;
+    width: auto;    
+    grid-column-start: 1;
+    grid-column-end: 4;
+    background-color: aliceblue;
 }
 
 .loginform-container {
-    margin: 10vh;            
-    padding: 2rem 5rem;    
-    border: .2rem solid;
+    height: auto;
+    width: auto;
+    margin: 5rem 0rem;            
+    padding: 2rem 5rem;      
+    
     border-radius: 1rem;
-    display: grid;    
+    display: grid;     
+    grid-row-start:1;
+    grid-row-end:2;     
+    grid-column-start: 4;
+    grid-column-end: 8;
 }
 
-.loginform {                       
+.loginform-message {
+    place-self: start;
+    margin-left: 2rem;
+    display: flex;
+    gap: 2rem;
+}
+
+.button-mode-inactive {
+    padding: .5rem 1rem;
+    background-color: aliceblue;
+}
+
+.button-mode-active {
+    font-style: bold;
+    padding: .5rem 1rem;
+    background-color: rgb(203, 223, 240);
+}
+
+.loginform {         
+    width: match-parent;
     border-radius: 1rem;
     padding: 3rem 0rem;
-    display: flex;    
+    display: grid;
+    grid-template-areas:
+        "username password"
+        " . submit";        
+}
+
+.textfield {
+    border: 1px solid;    
+    border-radius: .3rem;
+    border-color: rgb(203, 223, 240);;
 }
 
 .usernamefield {
+    height: 1.5rem;
+    width: fit-content;
     margin: 2rem;
+    grid-area: username;        
 }
 
 .passwordfield {
+    height: 1.5rem;
+    width: fit-content;
     margin: 2rem;
+    grid-area: password;
+}
+
+.submitbutton-container {
+    display: grid;
+    grid-area: submit;
+    grid-template-rows: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.submitbutton {
+    grid-row-start: 3;
+    grid-column-start: 3;
+    height: 1.5rem;
+    width: 5rem;
+    border: transparent;
+    border-radius: .5rem;
+    background-color: aliceblue;
+}
+
+
+
+@media (max-width:1024px) {
+    
 }

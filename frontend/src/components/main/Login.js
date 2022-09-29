@@ -11,6 +11,8 @@ import './Login.css'
  * @returns 
  */
 function Login() {  
+  const [showLogin, setShowLogin] = useState(true)
+  const [showRegistration, setShowRegistration] = useState(false)
   const [errorMessage, setErrorMessage] = useState("")
   const [isLogged, setIsLogged] = useState(false)
   const [userDetails, setUserDetails] = useState({
@@ -48,8 +50,8 @@ function Login() {
               values, errors, touched, handleChange, handleBlur, handleSubmit, isSubmitting
             }
           ) => (            
-            <form onSubmit={handleSubmit}>
-              <input className='usernamefield'
+            <form className="loginform" onSubmit={handleSubmit}>
+              <input className="usernamefield textfield"
                 type="username"
                 name="username"
                 onChange={handleChange}
@@ -57,7 +59,7 @@ function Login() {
                 value={values.username}
                 />
               {errors.username && touched.username && errors.username}
-              <input className='passwordfield'
+              <input className="passwordfield textfield"
                 type="password"
                 name="password"
                 onChange={handleChange}
@@ -65,9 +67,11 @@ function Login() {
                 value={values.password}
               />
               {errors.password && touched.password && errors.password}
-              <button type="submit" disabled={isSubmitting}>
-                Submit
-              </button>
+              <div className="submitbutton-container">
+                <button className='submitbutton' type="submit" disabled={isSubmitting}>
+                  Submit
+                </button>
+              </div>
             </form>
           )}
         </Formik>
@@ -95,19 +99,47 @@ function Login() {
       .catch((err) => {
           setErrorMessage(err.response.data.detail.toString())
       })
-  }  
-  return (
-    <div className="login">      
+  } 
+  
+  const loginView = () => {
+    var loginButtonClass = showLogin ? 'button-mode-active' : 'button-mode-inactive'
+    var registrationButtonClass = showRegistration ? 'button-mode-active' : 'button-mode-inactive'
+    return (
+    <div className="login">
+      <div className="welcome-container">
+      </div>      
       <div className="loginform-container">
-        <div className="loginform-message">
-          Please Login
-        </div>
-        <div className="loginform">
-          
-          {loginForm()}
+        <div className="loginform-message">          
+          <text className={loginButtonClass} onClick={handleLoginViewClick}>Login</text>
+          <text className={registrationButtonClass} onClick={handleRegViewClick}>Register</text>
+        </div>        
+        <div>          
+          { showLogin && loginForm() }
+          { showRegistration }
         </div>
       </div>
+    </div>
+    )}
 
+  
+  const handleLoginViewClick = () => {
+    if (showLogin == false) {
+      setShowLogin(!showLogin)
+      setShowRegistration(!showRegistration)    
+    }
+  }
+
+  const handleRegViewClick = () => {
+    if (showRegistration == false) {
+      setShowRegistration(!showRegistration)
+      setShowLogin(!showLogin)
+    }
+  }
+
+  
+  return (
+    <div>
+      {loginView()}
     </div>
   )
 }
