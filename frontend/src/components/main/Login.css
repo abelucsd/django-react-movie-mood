@@ -1,0 +1,27 @@
+.login {
+    display: flex;  
+    justify-content: center;
+    align-items: center;        
+}
+
+.loginform-container {
+    margin: 10vh;            
+    padding: 2rem 5rem;    
+    border: .2rem solid;
+    border-radius: 1rem;
+    display: grid;    
+}
+
+.loginform {                       
+    border-radius: 1rem;
+    padding: 3rem 0rem;
+    display: flex;    
+}
+
+.usernamefield {
+    margin: 2rem;
+}
+
+.passwordfield {
+    margin: 2rem;
+}
